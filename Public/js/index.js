@@ -65,8 +65,7 @@ async function onSignin(e) {
     if (signinResponse.status == 201) {
       loginemail.value = "";
       loginpassword.value = "";
-      alert("login sucessful");
-      //window.location.href = "/user";
+      window.location.href = "/user";
     }
   } catch (error) {
     console.log(error);

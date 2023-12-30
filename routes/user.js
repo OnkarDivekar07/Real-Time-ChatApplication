@@ -5,5 +5,6 @@ const Controller = require("../Controller/user");
 
 router.post("/signup", Controller.userSignup);
 router.post("/Signin", Controller.userSignin);
+router.get("/", Controller.getmainpage);
 
 module.exports = router;

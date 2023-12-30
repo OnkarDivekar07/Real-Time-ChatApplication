@@ -18,7 +18,7 @@ app.use(
 );
 
 //Routes
-const mainpage = require("./routes/mainpage");
+const mainpage = require("./routes/mainpageRoutes");
 const user = require("./routes/user");
 
 //Models

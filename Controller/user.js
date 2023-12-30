@@ -62,3 +62,7 @@ exports.userSignin = async (request, response, next) => {
     console.log(error);
   }
 };
+
+exports.getmainpage = (req, res) => {
+  res.sendFile("main.html", { root: "View" });
+};
