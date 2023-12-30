@@ -10,7 +10,12 @@ const app = express();
 
 //middleware for jason parsing and cors handling
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    methods: ["GET", "POST"],
+  })
+);
 
 //Routes
 const mainpage = require("./routes/mainpage");
@@ -23,7 +28,6 @@ const User = require("./Models/UserModel");
 app.use(express.static("public"));
 
 //redirecting
-
 app.use("/user", user);
 app.use(mainpage);
 
