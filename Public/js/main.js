@@ -95,7 +95,7 @@ async function on_SendMessage(e) {
           message: formElements.messageInput.value,
           GroupId: groupId,
         };
-        const response = await axios.post("chat/post-message", data);
+        await axios.post("chat/post-message", data);
       } else {
         const file = formElements.messageInput.files[0];
         if (file && file.type.startsWith("image/")) {
@@ -110,8 +110,6 @@ async function on_SendMessage(e) {
       message_form.reset();
       if (groupId == 0) {
         ShowCommonChats();
-      } else {
-        // showGroupChats(groupId);
       }
     }
   } catch (error) {
@@ -149,3 +147,7 @@ async function ShowCommonChats() {
     window.location = "/";
   }
 }
+
+setInterval(() => {
+  ShowCommonChats();
+}, 1000);
