@@ -27,6 +27,7 @@ const chat = require("./routes/chatRoutes");
 //Models
 const User = require("./Models/UserModel");
 const ChatHistory = require("./Models/chat-history");
+const Groups = require("./Models/groups");
 
 //serving file statically
 app.use(express.static("public"));
@@ -39,6 +40,8 @@ app.use(mainpage);
 //associations
 User.hasMany(ChatHistory);
 ChatHistory.belongsTo(User, { constraints: true });
+Groups.hasMany(ChatHistory);
+ChatHistory.belongsTo(Groups);
 
 //synchronousing the dtabase table and then starting the server using promises
 sequelize

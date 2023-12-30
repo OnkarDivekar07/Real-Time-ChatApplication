@@ -1,12 +1,13 @@
 const User = require("../Models/UserModel");
 const ChatHistory = require("../Models/chat-history");
-//const awsService = require("../services/awsservices");
+// const awsService = require("../services/awsservices");
 const { Op } = require("sequelize");
 
 exports.saveChatHistory = async (req, res, next) => {
   try {
-    const user = request.user;
-    const { message, GroupId } = request.body;
+    const user = req.user;
+    const { message, GroupId } = req.body;
+
     if (GroupId == 0) {
       await user.createChatHistory({
         message,
@@ -17,10 +18,54 @@ exports.saveChatHistory = async (req, res, next) => {
         GroupId,
       });
     }
-    return response
+    return res
       .status(200)
-      .json({ message: "Message saved to database succesfully" });
+      .json({ message: "Message saved to the database successfully" });
   } catch (error) {
-    return response.status(500).json({ message: "Internal Server error!" });
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server error!" });
   }
+};
+
+exports.getAllChatHistory = async (req, res, next) => {
+  try {
+    const lastMessageId = req.query.lastMessageId || 0;
+    const chatHistories = await ChatHistory.findAll({
+      include: [
+        {
+          model: User,
+          attibutes: ["id", "name", "date_time"],
+        },
+      ],
+      order: [["date_time", "ASC"]],
+      where: {
+        GroupId: null,
+        id: {
+          [Op.gt]: lastMessageId,
+        },
+      },
+    });
+    const chats = chatHistories.map((ele) => {
+      const user = ele.User;
+      return {
+        messageId: ele.id,
+        message: ele.message,
+        isImage: ele.isImage,
+        name: user.name,
+        userId: user.id,
+        date_time: ele.date_time,
+      };
+    });
+    return res
+      .status(200)
+      .json({ chats, message: "User chat History Fetched" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal Server error!" });
+  }
+};
+
+exports.getcurrentuser = async (req, res, next) => {
+  const user = req.user;
+  res.json({ userId: user.id, user });
 };

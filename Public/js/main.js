@@ -95,7 +95,7 @@ async function on_SendMessage(e) {
           message: formElements.messageInput.value,
           GroupId: groupId,
         };
-        await axios.post("chat/post-message", data);
+        const response = await axios.post("chat/post-message", data);
       } else {
         const file = formElements.messageInput.files[0];
         if (file && file.type.startsWith("image/")) {
@@ -139,7 +139,7 @@ async function ShowCommonChats() {
       const apiChats = APIresponse.data.chats;
       savingChats = apiChats.slice(-1000);
     }
-    const getUserResponse = await axios.get("/user/get-user");
+    const getUserResponse = await axios.get("/chat/get-user");
     const userId = getUserResponse.data.userId;
     localStorage.setItem("chatHistory", JSON.stringify(savingChats));
     showChatOnScreen(savingChats, userId);
