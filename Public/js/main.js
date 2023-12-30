@@ -121,14 +121,18 @@ async function on_SendMessage(e) {
 async function ShowCommonChats() {
   try {
     let savingChats;
+
     const chats = localStorage.getItem("chatHistory");
+
     if (chats && chats.length != 2) {
       const parsedChatHistory = JSON.parse(chats);
       const lastMessageId =
         parsedChatHistory[parsedChatHistory.length - 1].messageId;
+
       const APIresponse = await axios(
         `chat/get-messages?lastMessageId=${lastMessageId}`
       );
+
       const apiChats = APIresponse.data.chats;
       const mergedChats = [...parsedChatHistory, ...apiChats];
       savingChats = mergedChats.slice(-1000);
@@ -137,6 +141,7 @@ async function ShowCommonChats() {
       const apiChats = APIresponse.data.chats;
       savingChats = apiChats.slice(-1000);
     }
+
     const getUserResponse = await axios.get("/chat/get-user");
     const userId = getUserResponse.data.userId;
     localStorage.setItem("chatHistory", JSON.stringify(savingChats));
