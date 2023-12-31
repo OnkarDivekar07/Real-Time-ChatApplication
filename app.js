@@ -7,6 +7,7 @@ const { Server } = require("socket.io");
 const sequelize = require("./util/database");
 const cookieparser = require("cookie-parser");
 const PORT = process.env.PORT;
+const cronService = require("./services/cron");
 
 //express handler function
 const app = express();
@@ -20,6 +21,9 @@ app.use(
   })
 );
 app.use(cookieparser());
+
+//cron job
+cronService.job.start();
 
 //Routes
 const mainpage = require("./routes/mainpageRoutes");
