@@ -151,3 +151,6 @@ async function ShowCommonChats() {
     window.location = "/";
   }
 }
+// setInterval(() => {
+//   ShowCommonChats();
+// });
