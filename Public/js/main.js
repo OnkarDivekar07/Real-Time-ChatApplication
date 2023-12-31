@@ -68,7 +68,7 @@ function showChatOnScreen(chatHistory, userId) {
                 </div>`;
       }
     } else {
-      if (ele.isImage) {
+      if (isImage) {
         messageText += `                            
                 <div class="col-12 mb-2 pe-0">
                     <div class="card p-2 float-start rounded-4 chat-class">
