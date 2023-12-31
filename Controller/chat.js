@@ -1,6 +1,6 @@
 const User = require("../Models/UserModel");
 const ChatHistory = require("../Models/chat-history");
-// const awsService = require("../services/awsservices");
+const awsService = require("../services/awss3");
 const { Op } = require("sequelize");
 
 exports.saveChatHistory = async (req, res, next) => {
@@ -68,4 +68,34 @@ exports.getAllChatHistory = async (req, res, next) => {
 exports.getcurrentuser = async (req, res, next) => {
   const user = req.user;
   res.json({ userId: user.id, user });
+};
+
+exports.saveChatImages = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const image = req.file;
+    const { GroupId } = req.body;
+    const filename = `chat-images/group${GroupId}/user${
+      user.id
+    }/${Date.now()}_${image.originalname}`;
+    const imageUrl = await awsService.uploadToS3(image.buffer, filename);
+    if (GroupId == 0) {
+      await user.createChatHistory({
+        message: imageUrl,
+        isImage: true,
+      });
+    } else {
+      await user.createChatHistory({
+        message: imageUrl,
+        GroupId,
+        isImage: true,
+      });
+    }
+    return res
+      .status(200)
+      .json({ message: "image saved to database succesfully" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal Server error!" });
+  }
 };

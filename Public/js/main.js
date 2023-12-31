@@ -1,6 +1,8 @@
 const socket = io(window.location.origin);
 socket.on("common-message", () => {
-  ShowCommonChats();
+  if (formElements.message_btn.id == 0) {
+    ShowCommonChats();
+  }
 });
 
 const formElements = {
@@ -10,6 +12,8 @@ const formElements = {
   flexLabel: message_form.querySelector("label"),
   flexInput: message_form.querySelector("#flexInput"),
 };
+
+const group_editbtn = group_headContainer.querySelector('input[type="submit"]');
 
 formElements.flexSwitch.addEventListener("change", () => {
   if (formElements.flexLabel.innerText === "text") {
@@ -26,7 +30,8 @@ formElements.flexSwitch.addEventListener("change", () => {
 formElements.message_btn.addEventListener("click", on_SendMessage);
 
 function showChatOnScreen(chatHistory, userId) {
-  chat_body.innerHTML = "";
+  console.log(chatHistory);
+  chat_body.innerHTNL = "";
   let messageText = "";
   chatHistory.forEach((ele) => {
     const date = new Date(ele.date_time);
@@ -38,10 +43,10 @@ function showChatOnScreen(chatHistory, userId) {
       minute: "2-digit",
     };
     const formattedDate = date.toLocaleString("en-US", options);
-
+    const isImage = /\.(jpg|jpeg|png|gif)$/i.test(ele.message);
     if (ele.userId == userId) {
-      if (ele.isImage) {
-        messageText += `
+      if (isImage) {
+        messageText += `      
             <div class="col-12 mb-2 pe-0">
                 <div class="card p-2 float-end rounded-4 self-chat-class">
                     <p class="text-primary my-0"><small>${ele.name}</small></p>
@@ -53,7 +58,7 @@ function showChatOnScreen(chatHistory, userId) {
             </div>
                 `;
       } else {
-        messageText += `
+        messageText += `                            
                 <div class="col-12 mb-2 pe-0">
                     <div class="card p-2 float-end rounded-4 self-chat-class">
                         <p class="text-primary my-0"><small>${ele.name}</small></p>
@@ -64,7 +69,7 @@ function showChatOnScreen(chatHistory, userId) {
       }
     } else {
       if (ele.isImage) {
-        messageText += `
+        messageText += `                            
                 <div class="col-12 mb-2 pe-0">
                     <div class="card p-2 float-start rounded-4 chat-class">
                         <p class="text-danger my-0"><small>${ele.name}</small></p>
@@ -75,7 +80,7 @@ function showChatOnScreen(chatHistory, userId) {
                     </div>
                 </div>`;
       } else {
-        messageText += `
+        messageText += `                            
                 <div class="col-12 mb-2 pe-0">
                     <div class="card p-2 float-start rounded-4 chat-class">
                         <p class="text-danger my-0"><small>${ele.name}</small></p>
@@ -116,6 +121,9 @@ async function on_SendMessage(e) {
       if (groupId == 0) {
         socket.emit("new-common-message");
         ShowCommonChats();
+      } else {
+        socket.emit("new-group-message", groupId);
+        showGroupChats(groupId);
       }
     }
   } catch (error) {
@@ -127,18 +135,14 @@ async function on_SendMessage(e) {
 async function ShowCommonChats() {
   try {
     let savingChats;
-
     const chats = localStorage.getItem("chatHistory");
-
     if (chats && chats.length != 2) {
       const parsedChatHistory = JSON.parse(chats);
       const lastMessageId =
         parsedChatHistory[parsedChatHistory.length - 1].messageId;
-
       const APIresponse = await axios(
         `chat/get-messages?lastMessageId=${lastMessageId}`
       );
-      console.log(APIresponse);
       const apiChats = APIresponse.data.chats;
       const mergedChats = [...parsedChatHistory, ...apiChats];
       savingChats = mergedChats.slice(-1000);
@@ -148,6 +152,7 @@ async function ShowCommonChats() {
       savingChats = apiChats.slice(-1000);
     }
     const getUserResponse = await axios.get("/chat/get-user");
+    console.log(getUserResponse);
     const userId = getUserResponse.data.userId;
     localStorage.setItem("chatHistory", JSON.stringify(savingChats));
     showChatOnScreen(savingChats, userId);
@@ -157,4 +162,5 @@ async function ShowCommonChats() {
     window.location = "/";
   }
 }
+
 ShowCommonChats();

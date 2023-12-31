@@ -52,8 +52,9 @@ function showChatOnScreen(chatHistory, userId) {
       minute: "2-digit",
     };
     const formattedDate = date.toLocaleString("en-US", options);
+    const isImage = /\.(jpg|jpeg|png|gif)$/i.test(ele.message);
     if (ele.userId == userId) {
-      if (ele.isImage) {
+      if (isImage) {
         messageText += `      
             <div class="col-12 mb-2 pe-0">
                 <div class="card p-2 float-end rounded-4 self-chat-class">
@@ -116,6 +117,23 @@ function searchUser(e) {
       value.classList.remove("d-flex");
       value.style.display = "none";
     }
+  }
+}
+
+async function showGroupChats(groupId) {
+  try {
+    const config = {
+      params: {
+        groupId: groupId,
+      },
+    };
+    const APIresponse = await axios.get("group/get-group-messages", config);
+    const apiChats = APIresponse?.data?.chats;
+    const getUserResponse = await axios.get("/chat/get-user");
+    const userId = getUserResponse?.data?.userId;
+    showChatOnScreen(apiChats, userId);
+  } catch (error) {
+    logger.error(error);
   }
 }
 async function ShowGroup() {
