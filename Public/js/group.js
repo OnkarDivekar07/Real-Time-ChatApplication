@@ -127,9 +127,11 @@ async function ShowGroup() {
       const options = { year: "numeric", month: "short", day: "numeric" };
       const formattedDate = date.toLocaleString("en-US", options);
       html += `               
-        <button class="list-group-item list-group-item-action py-2" 
+         <button class="list-group-item list-group-item-action py-2" 
             data-bs-toggle="list">
             <div class="d-flex w-100 align-items-center justify-content-between" id="${ele.id}">
+                <img src="https://picsum.photos/seed/${ele.id}/200" alt="Profile Picture" class="rounded-circle"
+                    style="width: 50px; height: 50px;">
                 <strong class="mb-1">${ele.name}</strong>
                 <small>${ele.membersNo} Members</small>
             </div>
@@ -232,6 +234,7 @@ async function showingGroupDetails(e) {
     const groupId = e.target.id;
     user_list.parentElement.classList.remove("d-none");
     const usersResponse = await axios.get("user/get-users");
+    console.log();
     const memberApi = await axios(`group/get-group-members?groupId=${groupId}`);
     const groupMebers = memberApi.data.users;
     const idSet = new Set(groupMebers.map((item) => item.id));
@@ -262,7 +265,6 @@ async function showingGroupDetails(e) {
       }
     });
     user_list.innerHTML = text;
-
     const GroupApiresponse = await axios(`group/get-group?groupId=${groupId}`);
     const { group } = GroupApiresponse.data;
     modelElements.groupName.value = group.name;
@@ -317,7 +319,8 @@ async function createGroup(e) {
 async function showGroupChat(e) {
   try {
     const groupId = e.target.id;
-    const getUserResponse = await axios.get("/user/get-user");
+    const getUserResponse = await axios.get("/chat/get-user");
+    console.log(getUserResponse);
     const userId = getUserResponse.data.userId;
     if (groupId && groupId != "group_body") {
       setupGroup(groupId, userId);
@@ -342,9 +345,11 @@ async function showGroupChat(e) {
 
 async function setupGroup(groupId, userId) {
   try {
+    console.log(userId);
     if (groupId == 0) {
       group_heading.innerHTML = `Chat Room`;
       group_members.innerHTML = ` All Members`;
+      group_editbtn.classList.add("d-none");
       group_members.setAttribute(
         "data-bs-original-title",
         `All Members can access this group !`

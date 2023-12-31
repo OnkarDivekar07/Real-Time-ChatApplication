@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -10,6 +11,7 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 </head>
+
 <body>
     <div class="pos-f-t">
         <div class="collapse" id="navbarToggleExternalContent">
@@ -58,6 +60,8 @@
                 <div
                     class="w-100 d-flex align-items-center justify-content-between border border-opacity-10 p-2 mb-2 rounded-2 bg-white text-black">
                     <h3><strong class="mb-1" id="group_heading"></strong></h3>
+                    <input type="submit" class="btn btn-primary  d-none" data-bs-toggle="modal"
+                        data-bs-target="#group_model" value=&#9998; id="0">
                     <small id="group_members" data-toggle="tooltip" data-bs-placement="left"
                         title="All Members can access this group !">All Members</small>
                     <input type="submit" class="btn btn-primary  d-none" data-bs-toggle="modal"
@@ -106,7 +110,6 @@
                                 <ul class="list-group overflow-y-scroll" id="user_list" style="max-height: 30vh;">
                                 </ul>
                             </div>
-
                         </div>
                         <input type="hidden" class="form-control" name="edit_status" value="false">
                     </form>
