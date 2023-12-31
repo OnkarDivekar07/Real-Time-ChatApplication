@@ -8,30 +8,37 @@ exports.userSignup = async (req, res) => {
   try {
     const { name, email, phonenumber, password } = req.body;
     let userExist = await User.findOne({
-      [Op.or]: [{ email }, { phonenumber }],
+      where: {
+        [Op.or]: [{ email }, { phoneNumber: phonenumber }],
+      },
     });
+
     if (!userExist) {
       const hash = await bcrypt.hash(password, 10);
-      const user = User.create({
+      const user = await User.create({
         name: name,
         email: email,
         phoneNumber: phonenumber,
         password: hash,
       });
+
       const token = jwt.sign({ userId: user.id }, secretKey, {
         expiresIn: "1h",
       });
+
       res.cookie("token", token, { maxAge: 3600000 });
+
       return res
         .status(201)
-        .json({ message: "user Account created successfully" });
+        .json({ message: "User account created successfully" });
     } else {
       return res
         .status(409)
-        .json({ message: "Email or Phone Number already exist!" });
+        .json({ message: "Email or Phone Number already exists!" });
     }
   } catch (error) {
-    console.log(error);
+    console.error("An error occurred:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
@@ -60,6 +67,26 @@ exports.userSignin = async (request, response, next) => {
     }
   } catch (error) {
     console.log(error);
+  }
+};
+
+exports.getAlluser = async (req, res, next) => {
+  try {
+    const user = req.user;
+    const users = await User.findAll({
+      attributes: ["id", "name"],
+      where: {
+        id: {
+          [Op.not]: user.id,
+        },
+      },
+    });
+    return res
+      .status(200)
+      .json({ users, message: "All users succesfully fetched" });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Internal Server error!" });
   }
 };
 

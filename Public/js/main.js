@@ -141,7 +141,6 @@ async function ShowCommonChats() {
       const apiChats = APIresponse.data.chats;
       savingChats = apiChats.slice(-1000);
     }
-
     const getUserResponse = await axios.get("/chat/get-user");
     const userId = getUserResponse.data.userId;
     localStorage.setItem("chatHistory", JSON.stringify(savingChats));
@@ -152,7 +151,3 @@ async function ShowCommonChats() {
     window.location = "/";
   }
 }
-
-setInterval(() => {
-  ShowCommonChats();
-}, 1000);

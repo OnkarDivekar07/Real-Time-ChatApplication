@@ -32,8 +32,8 @@ async function on_Signup(e) {
       phonenumber: phone.value,
       password: passwordInput.value,
     };
-    console.log(data);
     const signupdata = await axios.post("user/signup", data);
+    console.log(signupdata);
     if (signupdata.status == 201) {
       nameInput.value = "";
       emailInput.value = "";
@@ -42,7 +42,7 @@ async function on_Signup(e) {
       alert("account created Sucessfully");
     }
   } catch (error) {
-    alert("Account Already Exists");
+    alert("error occured during signup");
     console.error("An error occurred:", error);
   }
 }
