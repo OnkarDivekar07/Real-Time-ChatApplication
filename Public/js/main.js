@@ -1,3 +1,8 @@
+const socket = io(window.location.origin);
+socket.on("common-message", () => {
+  ShowCommonChats();
+});
+
 const formElements = {
   messageInput: message_form.querySelector('input[name="Message"]'),
   message_btn: message_form.querySelector('input[type="submit"]'),
@@ -21,7 +26,7 @@ formElements.flexSwitch.addEventListener("change", () => {
 formElements.message_btn.addEventListener("click", on_SendMessage);
 
 function showChatOnScreen(chatHistory, userId) {
-  chat_body.innerHTNL = "";
+  chat_body.innerHTML = "";
   let messageText = "";
   chatHistory.forEach((ele) => {
     const date = new Date(ele.date_time);
@@ -109,6 +114,7 @@ async function on_SendMessage(e) {
       }
       message_form.reset();
       if (groupId == 0) {
+        socket.emit("new-common-message");
         ShowCommonChats();
       }
     }
@@ -132,7 +138,7 @@ async function ShowCommonChats() {
       const APIresponse = await axios(
         `chat/get-messages?lastMessageId=${lastMessageId}`
       );
-
+      console.log(APIresponse);
       const apiChats = APIresponse.data.chats;
       const mergedChats = [...parsedChatHistory, ...apiChats];
       savingChats = mergedChats.slice(-1000);
@@ -151,6 +157,4 @@ async function ShowCommonChats() {
     window.location = "/";
   }
 }
-// setInterval(() => {
-//   ShowCommonChats();
-// });
+ShowCommonChats();

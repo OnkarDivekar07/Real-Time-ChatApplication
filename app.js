@@ -2,6 +2,8 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const http = require("http");
+const { Server } = require("socket.io");
 const sequelize = require("./util/database");
 const cookieparser = require("cookie-parser");
 const PORT = process.env.PORT;
@@ -30,6 +32,7 @@ const User = require("./Models/UserModel");
 const ChatHistory = require("./Models/chat-history");
 const Groups = require("./Models/groups");
 const GroupMember = require("./Models/group-members");
+const websocketconnection = require("./services/websocket");
 //serving file statically
 app.use(express.static("public"));
 
@@ -54,11 +57,19 @@ Groups.belongsTo(User, {
 Groups.hasMany(ChatHistory);
 ChatHistory.belongsTo(Groups);
 
+const server = http.createServer(app);
+
+const io = new Server(server);
+
+//socket.io connection handling
+
+io.on("connection", websocketconnection);
+
 //synchronousing the dtabase table and then starting the server using promises
 sequelize
   .sync({})
   .then(() => {
-    app.listen(PORT, () => {
+    server.listen(PORT, () => {
       console.log(`Server Started On PORT ${PORT}`);
     });
   })

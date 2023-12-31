@@ -1,3 +1,7 @@
+const socket = io(window.location.origin);
+socket.on("group-message", (groupId) => {
+  showGroupChats(groupId);
+});
 const formElements = {
   messageInput: message_form.querySelector('input[name="Message"]'),
   message_btn: message_form.querySelector('input[type="submit"]'),
@@ -48,7 +52,6 @@ function showChatOnScreen(chatHistory, userId) {
       minute: "2-digit",
     };
     const formattedDate = date.toLocaleString("en-US", options);
-
     if (ele.userId == userId) {
       if (ele.isImage) {
         messageText += `      
@@ -166,6 +169,7 @@ async function on_SendMessage(e) {
       }
       message_form.reset();
       if (groupId) {
+        socket.emit("new-group-message", groupId);
         showGroupChats(groupId);
       }
     }
@@ -173,35 +177,6 @@ async function on_SendMessage(e) {
     console.log(error);
     alert(error.response.data.message);
   }
-}
-
-async function showGroupChats(groupId) {
-  try {
-    const config = {
-      params: {
-        groupId: groupId,
-      },
-    };
-    const APIresponse = await axios.get("group/get-group-messages", config);
-    const apiChats = APIresponse?.data?.chats;
-    const getUserResponse = await axios.get("/user/get-user");
-    const userId = getUserResponse?.data?.userId;
-    showChatOnScreen(apiChats, userId);
-  } catch (error) {
-    console.log(error);
-    displayErrorMessage(error);
-  }
-}
-
-function displayErrorMessage(error) {
-  const errorMessage = getErrorMessage(error);
-  // Display the error message to the user using a user-friendly mechanism (e.g. toast, modal, inline message)
-  // ...
-}
-
-function getErrorMessage(error) {
-  // Extract the error message from the error object and return it
-  // ...
 }
 
 async function showingAllUser() {
@@ -320,7 +295,6 @@ async function showGroupChat(e) {
   try {
     const groupId = e.target.id;
     const getUserResponse = await axios.get("/chat/get-user");
-    console.log(getUserResponse);
     const userId = getUserResponse.data.userId;
     if (groupId && groupId != "group_body") {
       setupGroup(groupId, userId);
