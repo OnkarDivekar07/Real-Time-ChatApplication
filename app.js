@@ -30,12 +30,14 @@ const mainpage = require("./routes/mainpageRoutes");
 const user = require("./routes/user");
 const chat = require("./routes/chatRoutes");
 const group = require("./routes/group");
+const resetpassword = require("./routes/resetpassword");
 
 //Models
 const User = require("./Models/UserModel");
 const ChatHistory = require("./Models/chat-history");
 const Groups = require("./Models/groups");
 const GroupMember = require("./Models/group-members");
+const Forgotpassword = require("./Models/forgotpassword");
 const websocketconnection = require("./services/websocket");
 //serving file statically
 app.use(express.static("public"));
@@ -44,6 +46,7 @@ app.use(express.static("public"));
 app.use("/user", user);
 app.use("/chat", chat);
 app.use("/group", group);
+app.use("/password", resetpassword);
 app.use(mainpage);
 
 //associations
@@ -60,6 +63,9 @@ Groups.belongsTo(User, {
 });
 Groups.hasMany(ChatHistory);
 ChatHistory.belongsTo(Groups);
+
+User.hasMany(Forgotpassword);
+Forgotpassword.belongsTo(User);
 
 const server = http.createServer(app);
 

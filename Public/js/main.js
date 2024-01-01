@@ -30,7 +30,6 @@ formElements.flexSwitch.addEventListener("change", () => {
 formElements.message_btn.addEventListener("click", on_SendMessage);
 
 function showChatOnScreen(chatHistory, userId) {
-  console.log(chatHistory);
   chat_body.innerHTNL = "";
   let messageText = "";
   chatHistory.forEach((ele) => {
@@ -152,7 +151,6 @@ async function ShowCommonChats() {
       savingChats = apiChats.slice(-1000);
     }
     const getUserResponse = await axios.get("/chat/get-user");
-    console.log(getUserResponse);
     const userId = getUserResponse.data.userId;
     localStorage.setItem("chatHistory", JSON.stringify(savingChats));
     showChatOnScreen(savingChats, userId);
