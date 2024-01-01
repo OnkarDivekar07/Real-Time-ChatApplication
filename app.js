@@ -40,7 +40,7 @@ const GroupMember = require("./Models/group-members");
 const Forgotpassword = require("./Models/forgotpassword");
 const websocketconnection = require("./services/websocket");
 //serving file statically
-app.use(express.static("public"));
+app.use(express.static("Public"));
 
 //redirecting
 app.use("/user", user);
