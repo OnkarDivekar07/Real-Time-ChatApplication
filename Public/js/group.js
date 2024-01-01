@@ -227,7 +227,6 @@ async function showingGroupDetails(e) {
     const groupId = e.target.id;
     user_list.parentElement.classList.remove("d-none");
     const usersResponse = await axios.get("user/get-users");
-    console.log();
     const memberApi = await axios(`group/get-group-members?groupId=${groupId}`);
     const groupMebers = memberApi.data.users;
     const idSet = new Set(groupMebers.map((item) => item.id));
