@@ -117,5 +117,5 @@ exports.updatepassword = async (req, res) => {
 };
 
 exports.emailPage = (request, response, next) => {
-  response.sendFile("email.html", { root: "view" });
+  response.sendFile("email.html", { root: "View" });
 };
