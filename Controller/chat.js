@@ -91,6 +91,7 @@ exports.saveChatImages = async (req, res, next) => {
         isImage: true,
       });
     }
+
     return res
       .status(200)
       .json({ message: "image saved to database succesfully" });

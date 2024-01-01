@@ -43,9 +43,9 @@ function showChatOnScreen(chatHistory, userId) {
       minute: "2-digit",
     };
     const formattedDate = date.toLocaleString("en-US", options);
-    const isImage = /\.(jpg|jpeg|png|gif)$/i.test(ele.message);
+    // const isImage = /\.(jpg|jpeg|png|gif)$/i.test(ele.message);
     if (ele.userId == userId) {
-      if (isImage) {
+      if (ele.isImage) {
         messageText += `      
             <div class="col-12 mb-2 pe-0">
                 <div class="card p-2 float-end rounded-4 self-chat-class">
@@ -68,7 +68,7 @@ function showChatOnScreen(chatHistory, userId) {
                 </div>`;
       }
     } else {
-      if (isImage) {
+      if (ele.isImage) {
         messageText += `                            
                 <div class="col-12 mb-2 pe-0">
                     <div class="card p-2 float-start rounded-4 chat-class">
