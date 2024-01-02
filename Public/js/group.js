@@ -151,8 +151,6 @@ async function ShowGroup() {
          <button class="list-group-item list-group-item-action py-2" 
             data-bs-toggle="list">
             <div class="d-flex w-100 align-items-center justify-content-between" id="${ele.id}">
-                <img src="https://picsum.photos/seed/${ele.id}/200" alt="Profile Picture" class="rounded-circle"
-                    style="width: 50px; height: 50px;">
                 <strong class="mb-1">${ele.name}</strong>
                 <small>${ele.membersNo} Members</small>
             </div>
@@ -208,8 +206,6 @@ async function showingAllUser() {
       text += `                                    
         <li class="list-group-item  d-flex  justify-content-between">
             <div class="d-flex  align-items-center justify-content-between">
-                <img src="https://picsum.photos/seed/${user.imageUrl}/200" alt="Profile Picture"
-                    class="rounded-circle me-3" style="width: 35px; height: 35px;">
                 <h6><strong class="mb-1">${user.name}</strong></h6>
             </div>
             <input type="checkbox" class="form-check-inline" name="users" value="${user.id}">
@@ -238,8 +234,6 @@ async function showingGroupDetails(e) {
         text += `                                    
                 <li class="list-group-item  d-flex  justify-content-between">
                     <div class="d-flex  align-items-center justify-content-between">
-                        <img src="https://picsum.photos/seed/${user.imageUrl}/200" alt="Profile Picture"
-                            class="rounded-circle me-3" style="width: 35px; height: 35px;">
                         <h6><strong class="mb-1">${user.name}</strong></h6>
                     </div>
                     <input type="checkbox" class="form-check-inline" name="users" value="${user.id}" checked>
