@@ -291,7 +291,6 @@ async function createGroup(e) {
         alert("Group successfully updated");
       }
       create_group_form.reset();
-      $("#group_model").modal("hide");
       ShowGroup();
     } else {
       alert("fill all details ");
