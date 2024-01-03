@@ -327,7 +327,6 @@ async function showGroupChat(e) {
 
 async function setupGroup(groupId, userId) {
   try {
-    console.log(userId);
     if (groupId == 0) {
       group_heading.innerHTML = `Chat Room`;
       group_members.innerHTML = ` All Members`;

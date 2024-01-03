@@ -2,29 +2,39 @@ const User = require("../Models/UserModel");
 const ChatHistory = require("../Models/chat-history");
 const Group = require("../Models/groups");
 
-exports.createGroup = async (request, response, next) => {
+exports.createGroup = async (req, res, next) => {
   try {
-    const user = request.user;
-    const { name, membersNo, membersIds } = request.body;
+    const user = req.user;
+    const { name, membersNo, membersIds } = req.body;
+
     const group = await user.createGroup({
       name,
       membersNo,
       AdminId: user.id,
     });
+
     membersIds.push(user.id);
     await group.addUsers(
       membersIds.map((ele) => {
         return Number(ele);
       })
     );
-    return response
+
+    return res
       .status(200)
-      .json({ group, message: "Group is succesfylly created" });
+      .json({ group, message: "Group is successfully created" });
   } catch (error) {
-    console.log(error);
-    return response.status(500).json({ message: "Internal Server error!" });
+    if (error.name === "SequelizeUniqueConstraintError") {
+      return res
+        .status(400)
+        .json({ message: "Group with the same name already exists." });
+    }
+
+    console.error(error);
+    return res.status(500).json({ message: "Internal Server error!" });
   }
 };
+
 exports.updateGroup = async (request, response, next) => {
   try {
     const user = request.user;

@@ -33,16 +33,15 @@ async function on_Signup(e) {
       password: passwordInput.value,
     };
     const signupdata = await axios.post("user/signup", data);
-    console.log(signupdata);
     if (signupdata.status == 201) {
       nameInput.value = "";
       emailInput.value = "";
       phone.value = "";
       passwordInput.value = "";
-      alert("account created Sucessfully");
+      alert("Account created successfully");
     }
   } catch (error) {
-    alert("error occured during signup");
+    alert("This Account already exists");
     console.error("An error occurred:", error);
   }
 }
