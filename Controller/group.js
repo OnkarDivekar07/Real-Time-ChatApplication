@@ -162,7 +162,7 @@ exports.getGroupMembersbyId = async (req, res, next) => {
   }
 };
 
-//
+//it is fetch all the users except the current user to show search list during updation and group creation
 exports.getAlluser = async (req, res, next) => {
   try {
     const user = req.user;
