@@ -15,11 +15,6 @@ router.post(
   controller.updateGroup
 );
 router.get(
-  "/get-groups",
-  authentication.authorization,
-  controller.getAllgroups
-);
-router.get(
   "/get-mygroups",
   authentication.authorization,
   controller.getMygroups

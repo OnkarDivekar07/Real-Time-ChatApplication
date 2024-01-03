@@ -64,18 +64,6 @@ exports.updateGroup = async (req, res, next) => {
   }
 };
 
-//
-exports.getAllgroups = async (req, res, next) => {
-  try {
-    const groups = await Group.findAll();
-    return res
-      .status(200)
-      .json({ groups, message: "All groups succesfully fetched" });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Internal Server error!" });
-  }
-};
 //fetched chat history from model to show group chats on screen
 exports.getGroupChatHistory = async (req, res, next) => {
   try {
