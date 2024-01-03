@@ -71,26 +71,6 @@ exports.userSignin = async (req, res, next) => {
   }
 };
 
-exports.getAlluser = async (req, res, next) => {
-  try {
-    const user = req.user;
-    const users = await User.findAll({
-      attributes: ["id", "name"],
-      where: {
-        id: {
-          [Op.not]: user.id,
-        },
-      },
-    });
-    return res
-      .status(200)
-      .json({ users, message: "All users succesfully fetched" });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Internal Server error!" });
-  }
-};
-
 exports.getmainpage = (req, res) => {
   res.sendFile("main.html", { root: "View" });
 };

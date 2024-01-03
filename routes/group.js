@@ -35,6 +35,9 @@ router.get(
   authentication.authorization,
   controller.getGroupMembersbyId
 );
+
+router.get("/get-users", authentication.authorization, controller.getAlluser);
+
 router.get("/", authentication.authorization, controller.getgroupfile);
 
 module.exports = router;

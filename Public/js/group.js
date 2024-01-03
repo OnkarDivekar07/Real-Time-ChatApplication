@@ -198,7 +198,7 @@ async function on_SendMessage(e) {
 async function showingAllUser() {
   try {
     user_list.parentElement.classList.remove("d-none");
-    const usersResponse = await axios.get("user/get-users");
+    const usersResponse = await axios.get("group/get-users");
     user_list.innerHTML = "";
     let text = "";
     const { users } = usersResponse.data;
@@ -222,7 +222,7 @@ async function showingGroupDetails(e) {
   try {
     const groupId = e.target.id;
     user_list.parentElement.classList.remove("d-none");
-    const usersResponse = await axios.get("user/get-users");
+    const usersResponse = await axios.get("group/get-users");
     const memberApi = await axios(`group/get-group-members?groupId=${groupId}`);
     const groupMebers = memberApi.data.users;
     const idSet = new Set(groupMebers.map((item) => item.id));
