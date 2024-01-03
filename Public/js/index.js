@@ -41,7 +41,7 @@ async function on_Signup(e) {
       alert("Account created successfully");
     }
   } catch (error) {
-    alert("This Account already exists");
+    alert(error.response.data.message);
     console.error("An error occurred:", error);
   }
 }
@@ -67,6 +67,7 @@ async function onSignin(e) {
       window.location.href = "/user";
     }
   } catch (error) {
+    alert(error.response.data.message);
     console.log(error);
   }
 }
