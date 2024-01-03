@@ -67,7 +67,6 @@ exports.updateGroup = async (req, res, next) => {
 //
 exports.getAllgroups = async (req, res, next) => {
   try {
-    console.log("i am here");
     const groups = await Group.findAll();
     return res
       .status(200)
