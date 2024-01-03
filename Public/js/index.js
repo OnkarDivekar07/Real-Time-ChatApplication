@@ -38,7 +38,7 @@ async function on_Signup(e) {
       emailInput.value = "";
       phone.value = "";
       passwordInput.value = "";
-      alert("Account created successfully");
+      alert("Account Created Successfully");
     }
   } catch (error) {
     alert(error.response.data.message);
