@@ -42,9 +42,9 @@ exports.userSignup = async (req, res) => {
   }
 };
 
-exports.userSignin = async (request, response, next) => {
+exports.userSignin = async (req, res, next) => {
   try {
-    const { email, password } = request.body;
+    const { email, password } = req.body;
     let userExist = await User.findOne({ where: { email } });
     if (userExist) {
       const isPasswordValid = await bcrypt.compare(
@@ -55,18 +55,19 @@ exports.userSignin = async (request, response, next) => {
         const token = jwt.sign({ userId: userExist.id }, secretKey, {
           expiresIn: "1h",
         });
-        response.cookie("token", token, { maxAge: 3600000 });
-        return response
+        res.cookie("token", token, { maxAge: 3600000 });
+        return res
           .status(201)
           .json({ message: "Username and password correct" });
       } else {
-        return response.status(401).json({ message: "Invalid Password!" });
+        return res.status(401).json({ message: "Invalid Password!" });
       }
     } else {
-      return response.status(409).json({ message: "Account is not exist!" });
+      return res.status(409).json({ message: "Account does not exist!" });
     }
   } catch (error) {
-    console.log(error);
+    console.error("An error occurred:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
