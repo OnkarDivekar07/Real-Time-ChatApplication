@@ -120,9 +120,6 @@ async function on_SendMessage(e) {
       if (groupId == 0) {
         socket.emit("new-common-message");
         ShowCommonChats();
-      } else {
-        socket.emit("new-group-message", groupId);
-        showGroupChats(groupId);
       }
     }
   } catch (error) {
