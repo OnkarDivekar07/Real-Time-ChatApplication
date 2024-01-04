@@ -86,14 +86,14 @@ exports.updatepassword = async (req, res) => {
   try {
     const { newpassword } = req.query;
     const { resetpasswordid } = req.params;
-
+    console.log(resetpasswordid);
     const resetpasswordrequest = await Forgotpassword.findOne({
       where: { id: resetpasswordid },
     });
 
     if (resetpasswordrequest) {
       const user = await userdetailstable.findOne({
-        where: { id: resetpasswordrequest.userId },
+        where: { id: resetpasswordrequest.UserId },
       });
 
       if (user) {
@@ -117,5 +117,5 @@ exports.updatepassword = async (req, res) => {
 };
 
 exports.emailPage = (request, response, next) => {
-  response.sendFile("email.html", { root: "View" });
+  response.sendFile("email.html", { root: "view" });
 };
