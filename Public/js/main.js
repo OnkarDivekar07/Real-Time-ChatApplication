@@ -30,7 +30,7 @@ formElements.flexSwitch.addEventListener("change", () => {
 formElements.message_btn.addEventListener("click", on_SendMessage);
 
 function showChatOnScreen(chatHistory, userId) {
-  chat_body.innerHTNL = "";
+  chat_body.innerHTML = "";
   let messageText = "";
   chatHistory.forEach((ele) => {
     const date = new Date(ele.date_time);
@@ -99,11 +99,13 @@ async function on_SendMessage(e) {
     if (e.target && message_form.checkValidity()) {
       e.preventDefault();
       const groupId = e.target.id;
+      console.log(groupId);
       if (formElements.flexLabel.innerText === "text") {
         const data = {
           message: formElements.messageInput.value,
           GroupId: groupId,
         };
+
         await axios.post("chat/post-message", data);
       } else {
         const file = formElements.messageInput.files[0];
@@ -148,6 +150,7 @@ async function ShowCommonChats() {
       savingChats = apiChats.slice(-1000);
     }
     const getUserResponse = await axios.get("/chat/get-user");
+    console.log(getUserResponse);
     const userId = getUserResponse.data.userId;
     localStorage.setItem("chatHistory", JSON.stringify(savingChats));
     showChatOnScreen(savingChats, userId);

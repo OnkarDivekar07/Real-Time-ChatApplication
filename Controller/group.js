@@ -100,17 +100,17 @@ exports.getGroupChatHistory = async (req, res, next) => {
   }
 };
 
-//fetching group data from group table to update the group details
-exports.getGroupbyId = async (request, response, next) => {
+//fetching group data from group table to update the group details and for showing groups when user clicks on it
+exports.getGroupbyId = async (req, res, next) => {
   try {
-    const { groupId } = request.query;
+    const { groupId } = req.query;
     const group = await Group.findOne({ where: { id: Number(groupId) } });
-    response
+    res
       .status(200)
       .json({ group, message: "Group details succesfully fetched" });
   } catch (error) {
     console.log(error);
-    return response.status(500).json({ message: "Internal Server error!" });
+    return res.status(500).json({ message: "Internal Server error!" });
   }
 };
 
@@ -149,7 +149,7 @@ exports.getGroupMembersbyId = async (req, res, next) => {
   }
 };
 
-//it is fetch all the users except the current user to show search list during updation and group creation
+//it is fetch all the users except the current user to show search list during group creation
 exports.getAlluser = async (req, res, next) => {
   try {
     const user = req.user;

@@ -39,6 +39,7 @@ modelElements.searchBar.addEventListener("keyup", searchUser);
 model_submibtn.addEventListener("click", createGroup);
 group_body.addEventListener("click", showGroupChat);
 
+//it controls all the activity related to showcasing chats on the screen color font attributtues etc
 function showChatOnScreen(chatHistory, userId) {
   chat_body.innerHTNL = "";
   let messageText = "";
@@ -103,6 +104,8 @@ function showChatOnScreen(chatHistory, userId) {
   chat_body.innerHTML = messageText;
   chat_container.scrollTop = chat_container.scrollHeight;
 }
+
+//it shows user when user type or do something in search
 function searchUser(e) {
   const text = e.target.value.toLowerCase();
   const items = user_list.querySelectorAll("li");
@@ -161,6 +164,8 @@ async function ShowGroup() {
     console.log(error);
   }
 }
+
+//send post message or post image according to toogle condition
 async function on_SendMessage(e) {
   try {
     if (e.target && message_form.checkValidity()) {
@@ -195,6 +200,7 @@ async function on_SendMessage(e) {
   }
 }
 
+//it shows all the users for group creation
 async function showingAllUser() {
   try {
     user_list.parentElement.classList.remove("d-none");
@@ -218,6 +224,7 @@ async function showingAllUser() {
   }
 }
 
+//it show group related information when user clicks on edit or create button
 async function showingGroupDetails(e) {
   try {
     const groupId = e.target.id;
@@ -261,7 +268,7 @@ async function showingGroupDetails(e) {
     alert(error.response.data.message);
   }
 }
-
+//it invoke group creation model and handles group creation activity
 async function createGroup(e) {
   try {
     if (create_group_form.checkValidity()) {
@@ -300,6 +307,7 @@ async function createGroup(e) {
   }
 }
 
+//this function help us navigating between groups
 async function showGroupChat(e) {
   try {
     const groupId = e.target.id;
@@ -325,37 +333,23 @@ async function showGroupChat(e) {
     // window.location = '/';
   }
 }
-
+//it show group when user clicks on to it
 async function setupGroup(groupId, userId) {
   try {
-    if (groupId == 0) {
-      group_heading.innerHTML = `Chat Room`;
-      group_members.innerHTML = ` All Members`;
-      group_editbtn.classList.add("d-none");
-      group_members.setAttribute(
-        "data-bs-original-title",
-        `All Members can access this group !`
-      );
-      formElements.message_btn.id = groupId;
-      group_editbtn.classList.add("d-none");
+    const APIresponse = await axios(`group/get-group?groupId=${groupId}`);
+    const { group } = APIresponse.data;
+    group_heading.innerHTML = `${group.name}`;
+    group_members.innerHTML = ` ${group.membersNo} Members`;
+    const memberApi = await axios(`group/get-group-members?groupId=${groupId}`);
+    const { users } = memberApi.data;
+    const usersString = users.map((item) => item.name.trim()).join(",");
+    group_members.setAttribute("data-bs-original-title", `${usersString}`);
+    formElements.message_btn.id = groupId;
+    if (group.AdminId == userId) {
+      group_editbtn.id = groupId;
+      group_editbtn.classList.remove("d-none");
     } else {
-      const APIresponse = await axios(`group/get-group?groupId=${groupId}`);
-      const { group } = APIresponse.data;
-      group_heading.innerHTML = `${group.name}`;
-      group_members.innerHTML = ` ${group.membersNo} Members`;
-      const memberApi = await axios(
-        `group/get-group-members?groupId=${groupId}`
-      );
-      const { users } = memberApi.data;
-      const usersString = users.map((item) => item.name.trim()).join(",");
-      group_members.setAttribute("data-bs-original-title", `${usersString}`);
-      formElements.message_btn.id = groupId;
-      if (group.AdminId == userId) {
-        group_editbtn.id = groupId;
-        group_editbtn.classList.remove("d-none");
-      } else {
-        group_editbtn.classList.add("d-none");
-      }
+      group_editbtn.classList.add("d-none");
     }
   } catch (error) {
     console.log(error);
