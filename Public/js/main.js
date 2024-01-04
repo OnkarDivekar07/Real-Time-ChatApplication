@@ -99,7 +99,6 @@ async function on_SendMessage(e) {
     if (e.target && message_form.checkValidity()) {
       e.preventDefault();
       const groupId = e.target.id;
-      console.log(groupId);
       if (formElements.flexLabel.innerText === "text") {
         const data = {
           message: formElements.messageInput.value,
@@ -150,7 +149,6 @@ async function ShowCommonChats() {
       savingChats = apiChats.slice(-1000);
     }
     const getUserResponse = await axios.get("/chat/get-user");
-    console.log(getUserResponse);
     const userId = getUserResponse.data.userId;
     localStorage.setItem("chatHistory", JSON.stringify(savingChats));
     showChatOnScreen(savingChats, userId);
