@@ -3,6 +3,7 @@ const ChatHistory = require("../Models/chat-history");
 const awsService = require("../services/awss3");
 const { Op } = require("sequelize");
 
+//store chat history for common-groups
 exports.saveChatHistory = async (req, res, next) => {
   try {
     const user = req.user;
@@ -27,6 +28,7 @@ exports.saveChatHistory = async (req, res, next) => {
   }
 };
 
+//fetch chat history for common groups
 exports.getAllChatHistory = async (req, res, next) => {
   try {
     const lastMessageId = req.query.lastMessageId || 0;
@@ -65,11 +67,13 @@ exports.getAllChatHistory = async (req, res, next) => {
   }
 };
 
+//fetch current user to display chat on right side
 exports.getcurrentuser = async (req, res, next) => {
   const user = req.user;
   res.json({ userId: user.id, user });
 };
 
+//store the images we get from the user
 exports.saveChatImages = async (req, res, next) => {
   try {
     const user = req.user;

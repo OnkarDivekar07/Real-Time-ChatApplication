@@ -127,6 +127,7 @@ exports.getMygroups = async (req, res, next) => {
     return res.status(500).json({ message: "Internal Server error!" });
   }
 };
+
 //showing current group members for group updation
 exports.getGroupMembersbyId = async (req, res, next) => {
   try {
@@ -149,7 +150,7 @@ exports.getGroupMembersbyId = async (req, res, next) => {
   }
 };
 
-//showing user for  group creation
+//showing All user for  group creation
 exports.getAlluser = async (req, res, next) => {
   try {
     const user = req.user;

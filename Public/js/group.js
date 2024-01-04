@@ -12,9 +12,6 @@ const formElements = {
 const modelElements = {
   groupName: group_model.querySelector('input[name="group_name"]'),
   searchBar: group_model.querySelector('input[name="search_bar"]'),
-  groupDesription: group_model.querySelector(
-    'textarea[name="group_description"]'
-  ),
   editStatus: group_model.querySelector('input[name="edit_status"]'),
 };
 
@@ -140,7 +137,7 @@ async function showGroupChats(groupId) {
   }
 }
 
-//it shows all the list of groups where user belongs
+// when we get on group pageit shows all the list of groups where user belongs
 async function ShowGroup() {
   try {
     const groupsResponse = await axios(`group/get-mygroups`);
@@ -270,7 +267,7 @@ async function showingGroupDetails(e) {
     alert(error.response.data.message);
   }
 }
-//it invoke group creation model and handles group creation activity
+//it invoke group creation model and handles group creation activity or group updatation activity
 async function createGroup(e) {
   try {
     if (create_group_form.checkValidity()) {

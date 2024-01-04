@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const secretKey = process.env.SECRET_KEY;
 
+//user signup functionality
 exports.userSignup = async (req, res) => {
   try {
     const { name, email, phonenumber, password } = req.body;
@@ -42,6 +43,7 @@ exports.userSignup = async (req, res) => {
   }
 };
 
+//usersignin functionality
 exports.userSignin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
