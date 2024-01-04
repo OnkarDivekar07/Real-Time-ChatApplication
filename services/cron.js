@@ -16,7 +16,6 @@ async function archiveOldRecords() {
   try {
     const tenDaysAgo = new Date();
     tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
-    // Find records to archive
     const recordsToArchive = await ChatHistory.findAll({
       where: {
         date_time: {
