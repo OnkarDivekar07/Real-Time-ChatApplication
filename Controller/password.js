@@ -22,7 +22,7 @@ exports.forgotpassword = async (req, res) => {
       const id = uuid.v4();
       await user.createForgotpassword({ id, active: true });
 
-      const link = `http://43.205.116.5/password/resetpassword/${id}`;
+      const link = `http://43.204.233.28/password/resetpassword/${id}`;
       const messageData = {
         from: "Excited User <divekaronkar787@gmail.com>",
         to: email,

@@ -61,8 +61,6 @@ Groups.belongsTo(User, {
   constraints: true,
   onDelete: "CASCADE",
 });
-Groups.hasMany(ChatHistory);
-ChatHistory.belongsTo(Groups);
 
 User.hasMany(Forgotpassword);
 Forgotpassword.belongsTo(User);
