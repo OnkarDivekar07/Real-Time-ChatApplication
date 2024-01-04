@@ -100,7 +100,7 @@ exports.getGroupChatHistory = async (req, res, next) => {
   }
 };
 
-//fetching group data from group table to update the group details and for showing groups when user clicks on it
+//fetching group data through groupid  to show group detailswhen clicked on it
 exports.getGroupbyId = async (req, res, next) => {
   try {
     const { groupId } = req.query;
@@ -114,7 +114,7 @@ exports.getGroupbyId = async (req, res, next) => {
   }
 };
 
-//fetching data from group model to show groups related to that perticular user  when user redirect to group page
+//it fetch data for showing group list  where user is member
 exports.getMygroups = async (req, res, next) => {
   try {
     const user = req.user;
@@ -127,7 +127,7 @@ exports.getMygroups = async (req, res, next) => {
     return res.status(500).json({ message: "Internal Server error!" });
   }
 };
-//getting group members id and data to showcase list of current members in group update model
+//showing current group members for group updation
 exports.getGroupMembersbyId = async (req, res, next) => {
   try {
     const { groupId } = req.query;
@@ -149,7 +149,7 @@ exports.getGroupMembersbyId = async (req, res, next) => {
   }
 };
 
-//it is fetch all the users except the current user to show search list during group creation
+//showing user for  group creation
 exports.getAlluser = async (req, res, next) => {
   try {
     const user = req.user;

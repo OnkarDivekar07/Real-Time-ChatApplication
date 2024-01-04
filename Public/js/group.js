@@ -105,7 +105,7 @@ function showChatOnScreen(chatHistory, userId) {
   chat_container.scrollTop = chat_container.scrollHeight;
 }
 
-//it shows user when user type or do something in search
+//it shows user when user type or do something in search bar
 function searchUser(e) {
   const text = e.target.value.toLowerCase();
   const items = user_list.querySelectorAll("li");
@@ -139,6 +139,8 @@ async function showGroupChats(groupId) {
     logger.error(error);
   }
 }
+
+//it shows all the list of groups where user belongs
 async function ShowGroup() {
   try {
     const groupsResponse = await axios(`group/get-mygroups`);
@@ -224,7 +226,7 @@ async function showingAllUser() {
   }
 }
 
-//it show group related information when user clicks on edit or create button
+//showing group details for user updation
 async function showingGroupDetails(e) {
   try {
     const groupId = e.target.id;
@@ -315,15 +317,11 @@ async function showGroupChat(e) {
     const userId = getUserResponse.data.userId;
     if (groupId && groupId != "group_body") {
       setupGroup(groupId, userId);
-      if (groupId == 0) {
-        ShowCommonChats();
-      } else {
-        const APIresponse = await axios(
-          `group/get-group-messages?groupId=${groupId}`
-        );
-        const apiChats = APIresponse.data.chats;
-        showChatOnScreen(apiChats, userId);
-      }
+      const APIresponse = await axios(
+        `group/get-group-messages?groupId=${groupId}`
+      );
+      const apiChats = APIresponse.data.chats;
+      showChatOnScreen(apiChats, userId);
     } else {
       console.log("no group id");
     }
@@ -333,7 +331,7 @@ async function showGroupChat(e) {
     // window.location = '/';
   }
 }
-//it show group when user clicks on to it
+//it  builds group schema when user clicks on to it
 async function setupGroup(groupId, userId) {
   try {
     const APIresponse = await axios(`group/get-group?groupId=${groupId}`);
