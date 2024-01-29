@@ -38,22 +38,5 @@ it leverages AWS S3 for multimedia sharing and integrates Nginx as an AWS EC2 re
    ```bash
    git clone https://github.com/OnkarDivekar07/Real-Time-ChatApplication.git
 cd real-time-chat
+
 npm install
-
-
-.env File Structure
-
-PORT=3000
-AWS_ACCESS_KEY_ID=your-aws-access-key
-AWS_SECRET_ACCESS_KEY=your-aws-secret-key
-S3_BUCKET=your-s3-bucket-name
-SECRET_KEY=your-secret-key
-DB_NAME=yourDB_Name
-DB_USER=UserName
-DB_PASSWORD=DB_PASSWORD
-DB_HOST=DB_HOST
-BUCKET_NAME=BUCKET_NAME
-
-*Update the values accordingly.
-
-npm start
