@@ -42,6 +42,7 @@ npm install
 
 
 .env File Structure
+
 PORT=3000
 AWS_ACCESS_KEY_ID=your-aws-access-key
 AWS_SECRET_ACCESS_KEY=your-aws-secret-key
@@ -52,7 +53,6 @@ DB_USER=UserName
 DB_PASSWORD=DB_PASSWORD
 DB_HOST=DB_HOST
 BUCKET_NAME=BUCKET_NAME
-
 
 *Update the values accordingly.
 
