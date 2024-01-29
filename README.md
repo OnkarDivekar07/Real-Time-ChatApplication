@@ -2,9 +2,11 @@
 
 ## Description
 
-This real-time chat application is developed using HTML, Bootstrap, JavaScript, Node.js, and Express, with Sequelize as the ORM. 
-The project follows the MVC pattern for scalable code and optimizes the MySQL database with efficient relationships. Additionally, 
-it leverages AWS S3 for multimedia sharing and integrates Nginx as an AWS EC2 reverse proxy for enhanced performance.
+# Real-Time Chat Application
+
+Built with HTML, Bootstrap, JavaScript, Node.js, and Express using Sequelize as the ORM. Follows the MVC pattern for scalability
+and optimizes MySQL with efficient relationships. 
+Leverages AWS S3 for multimedia sharing and Nginx as an AWS EC2 reverse proxy for enhanced performance.
 
 ## Features
 
